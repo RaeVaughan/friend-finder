@@ -1,0 +1,18 @@
+//dependencies
+var express = require("express");
+var bodyParser = require("body-parser");
+
+//express configuration
+var app = express();
+var PORT = process.env.PORT || 8080;
+
+//body parser to return JSON
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+
+//==========================================================================
+//routing
+// require("./app/routing/apiRoutes")(app);
+// require("./app/routing/htmlRoutes")(app);
