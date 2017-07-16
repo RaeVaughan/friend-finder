@@ -193,16 +193,16 @@
     //prevent page from reloaidng on submit button click
     event.preventDefault();
     //console.log("click button working");
-    if ($("#name").val() && $("#photo").val()) {
-      return true;
-    } else {
-      alert("Please fill out the entire survey and submit again");
-      return false;
-    }
+    // if ($("#name").val() && $("#photo").val()) {
+    //   return true;
+    // } else {
+    //   alert("Please fill out the entire survey and submit again");
+    //   return false;
+    // }
 
-    if ($("#q1").val()) {
-      console.log("form");
-    }
+    // if ($("#q1").val()) {
+    //   console.log("form");
+    // }
 
     //grab user input and save to a variable
     var newFriend = {
@@ -211,9 +211,22 @@
       scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()]
     }
     console.log(newFriend);
+
+  //POST request to send data to friends.js to be stored and accessed
+    $.post("/api/friends", newFriend, function(data) {
+      // if (data) {
+      //   alert("posted");
+      // } else {
+      //   alert("not posted");
+      // }
+      $("#name").val("");
+      $("#photo").val("");
+    });
   });  
 
+  
 
+//post function not emptying out name and photo or alerting or logging, need to find a way to select all dropdowns for validation and to be able to clear them on POST
 
 
 
