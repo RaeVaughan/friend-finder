@@ -73,11 +73,7 @@ module.exports = function(app) {
 
 		}
 
-
-
-		// if (friendData.includes(req.body)) {
-		// 	console.log("match");
-		// }
+		//need to loop through and store each diff to a variable, then if the new diff is smaller than the current diff, replace it. Then the one that's left will be the closest match, and the user will be shown the modal for that person
 
 		friendData.push(req.body);
 		//send back friend match to go in the modal
