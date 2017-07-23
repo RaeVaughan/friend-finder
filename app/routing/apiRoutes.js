@@ -9,7 +9,7 @@ module.exports = function(app) {
 
 	//POST requests to submit data to the server
 	app.post("/api/friends", function(req, res) {
-		//set the best possible difference as the highest number possible (because smallest number possible will be the one we want)
+		//set the best possible difference as the highest number possible (because smallest difference between the sum of the stored scores array and the user's scores array will be the one we want)
 		let bestDiff = 50;
 		//set empty variable to hold closest match
 		let match = {};
@@ -22,7 +22,7 @@ module.exports = function(app) {
 			var friendSum = friendScores.reduce(function (a, b) {
 				return a + b;
 			}, 0);
-			console.log("friend sum: ", friendSum);
+			//console.log("friend sum: ", friendSum);
 
 			//parse the user choices into integers, because the form returns an array of strings
 			var userScores = req.body.scores;
@@ -34,13 +34,13 @@ module.exports = function(app) {
 			var userSum = userScores.reduce(function (a, b) {
 				return a + b;
 			}, 0);
-			console.log("user sum: ", userSum);
+			//console.log("user sum: ", userSum);
 
 			//compare user sum against all friend sums to find closest match
 			//use Math.abs to set it to absolute value to avoid negatives
 			var diff = Math.abs(friendSum - userSum);
-			console.log("diff: ", diff);			
-			console.log("best diff: ", bestDiff);
+			// console.log("diff: ", diff);			
+			// console.log("best diff: ", bestDiff);
 			//find the closest match to the user's score 
 			if (diff <= bestDiff) {
 				bestDiff = diff;
@@ -51,10 +51,8 @@ module.exports = function(app) {
 
 			}
 		}
+		//push new friend data to /api/friends and return match to the front-end
 		friendData.push(req.body);
 		res.json(match);
 	});
-
-
 }
-

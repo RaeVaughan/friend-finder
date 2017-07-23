@@ -16,8 +16,7 @@
 <body>
 
   <div class="container">
-
-  
+  <!-- modal -->
   <div class="modal fade" id="friendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -226,18 +225,13 @@
   //POST request to send data to friends.js to be stored and accessed
     $.post("/api/friends", newFriend, function(data) {
 
-      $("#match-info").append("<img src= '" + data.photo + "' alt='friend photo' height='100%' width='100%'>");
+      //send image and name info to the modal id's
+      $("#match-info").html("<img src= '" + data.photo + "' alt='friend photo' height='100%' width='100%'>");
       $("#match-text").html(data.name);
-      
+      //clear out the name and photo text boxes
       $("#name").val("");
       $("#photo").val("");
 
     });
   });  
-
-
-
-
-
-
 </script>
