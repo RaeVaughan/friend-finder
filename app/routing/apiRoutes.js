@@ -1,8 +1,6 @@
 //link routes to data held in friends.js file
-
 var friendData = require("../data/friends.js");
 
-//routing
 //GET requests to handle when users visit a page
 module.exports = function(app) {
 	app.get("/api/friends", function(req, res) {
@@ -11,39 +9,10 @@ module.exports = function(app) {
 
 	//POST requests to submit data to the server
 	app.post("/api/friends", function(req, res) {
-		// console.log("friendData: ", friendData);
-		//loop through scores, parsing into integers
-		//save req.body.scores to new scores array of integers
-		// var scores = req.body.scores;
-		// for(i = 0; i < scores.length; i++) {
-		// 	scores[i] = parseInt(scores[i]);
-		// }
-		// //console.log("scores: ", scores);
-		// //var minDiff = 0;
-
-		// //getting differences
-		// for(i = 0; i < friendData.length; i++) {
-		// 	///var originalScoresArray = [];
-		// 	//var originalScores = friendData[0].scores;
-		// 	originalScoresArray.push(originalScores);
-		// 	originalScoresArray.push(req.body.scores);
-		// 	// var userScores = req.body.scores;
-		// 	// var scoresDiff = originalScores - userScores;
-
-		// 	console.log("original scores: ", originalScores);
-		// 	console.log("originalScoresArray: ", originalScoresArray);
-		// 	// console.log("req.body.scores: ", userScores);
-		// 	// console.log("score difference: ", scoresDiff);
-		// 	console.log("====================");
-		// }
-		
+		//loop through all the friend data
 		for (var i = 0; i < friendData.length; i++){
-
 			//save each score array into a variable
-			console.log(friendData[i].scores);
-			console.log("-------------------------");
 			var friendScores = friendData[i].scores;
-
 			//add all those scores and save as friendSum
 			var friendSum = friendScores.reduce(function (a, b) {
 				return a + b;
@@ -63,22 +32,30 @@ module.exports = function(app) {
 			console.log("user sum: ", userSum);
 
 			//compare user sum against all friend sums to find closest match
-			var diff = friendSum - userSum;
+			//use Math.abs to set it to absolute value to avoid negatives
+			var diff = Math.abs(friendSum - userSum);
 			console.log("diff: ", diff);
+			//start closest diff as first diff
+			var bestDiff = diff;
+			//set empty variable to hold closest match
+			var match = "";
+			console.log("best diff: ", bestDiff);
+			//find the closest match to the user's score 
+			if (diff <= bestDiff) {
+				bestDiff = diff;
+				console.log("new best diff: ", bestDiff);
+				//set the match to the friend data at the index of the closest match
+				match = friendData[i];
+				console.log("match info: ", match);
 
-			//convert number to positive if it's negative by returning the absolute value
-			if (diff < 0) {
-				var positiveDiff = Math.abs(diff);
+
+				$(".modal-body").html(match);
+
 			}
+			
 
 		}
-
-		//need to loop through and store each diff to a variable, then if the new diff is smaller than the current diff, replace it. Then the one that's left will be the closest match, and the user will be shown the modal for that person
-
 		friendData.push(req.body);
-		//send back friend match to go in the modal
-
-
 		res.json(friendData);
 	});
 
