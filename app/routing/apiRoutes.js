@@ -1,5 +1,5 @@
 //link routes to data held in friends.js file
-var friendData = require("../data/friends.js");
+const friendData = require("../data/friends.js");
 
 //GET requests to handle when users visit a page
 module.exports = function(app) {
@@ -9,6 +9,11 @@ module.exports = function(app) {
 
 	//POST requests to submit data to the server
 	app.post("/api/friends", function(req, res) {
+		//set the best possible difference as the highest number possible (because smallest number possible will be the one we want)
+		let bestDiff = 50;
+		//set empty variable to hold closest match
+		let match = {};
+
 		//loop through all the friend data
 		for (var i = 0; i < friendData.length; i++){
 			//save each score array into a variable
@@ -34,11 +39,7 @@ module.exports = function(app) {
 			//compare user sum against all friend sums to find closest match
 			//use Math.abs to set it to absolute value to avoid negatives
 			var diff = Math.abs(friendSum - userSum);
-			console.log("diff: ", diff);
-			//start closest diff as first diff
-			var bestDiff = diff;
-			//set empty variable to hold closest match
-			var match = "";
+			console.log("diff: ", diff);			
 			console.log("best diff: ", bestDiff);
 			//find the closest match to the user's score 
 			if (diff <= bestDiff) {
@@ -48,15 +49,10 @@ module.exports = function(app) {
 				match = friendData[i];
 				console.log("match info: ", match);
 
-
-				$(".modal-body").html(match);
-
 			}
-			
-
 		}
 		friendData.push(req.body);
-		res.json(friendData);
+		res.json(match);
 	});
 
 
